@@ -4,7 +4,7 @@
 
 Check a company before you pay it. Pyxmark is a hosted MCP server that screens a company or person against the OFAC, UN, EU and UK sanctions lists, looks the company up in SEC EDGAR, checks its web domain's age and email records, and puts it together in a due-diligence report with a clear, review or hold verdict. Every result links to the official record and says when each list was last synced.
 
-- Server: `https://mcp.pyxmark.com/mcp` (Streamable HTTP, no auth)
+- Server: `https://mcp.pyxmark.com/mcp` (Streamable HTTP, no sign in or key)
 - Free, no account or key: 25 lookups a day per IP address
 - Docs: https://mcp.pyxmark.com/ · Methodology: https://pyxmark.com/methodology
 - Made by Trunnel & Co. · hello@pyxmark.com
@@ -13,33 +13,63 @@ This repository holds listing and install files only. The server is hosted; its 
 
 ## Connect
 
+Server URL: `https://mcp.pyxmark.com/mcp` (Streamable HTTP). No sign in and no key.
+
+<p><a href="https://cursor.com/en/install-mcp?name=pyxmark&config=eyJ1cmwiOiJodHRwczovL21jcC5weXhtYXJrLmNvbS9tY3AifQ%3D%3D"><img src="https://img.shields.io/badge/Install_in-Cursor-000000?style=flat-square" alt="Install in Cursor"></a> <a href="https://vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522pyxmark%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Fmcp.pyxmark.com%252Fmcp%2522%257D"><img src="https://img.shields.io/badge/Install_in-VS_Code-0098FF?style=flat-square" alt="Install in VS Code"></a></p>
+
+**Claude (claude.ai and Claude Desktop):** Customize → Connectors → + Add → Add custom connector. Name it Pyxmark, paste the server URL, choose No sign in, then Add. Free plans allow one custom connector. On Team and Enterprise an owner adds it first under Organization settings → Connectors.
+
 **Claude Code**
 
 ```
 claude mcp add --transport http pyxmark https://mcp.pyxmark.com/mcp
 ```
 
-**Claude (web and desktop):** Settings → Connectors → Add custom connector. Name it Pyxmark and paste the server URL.
+**ChatGPT (web):** Plugins → + → Add custom MCP server. Name it Pyxmark, paste the server URL, pick No authentication, tick the risk box, then Create as a plugin. Install it and pick it with @ in a chat. You don't need Developer mode. OpenAI offers this on Business, Enterprise and Edu (admins and owners add it) and on Pro.
 
-**Cursor** (`~/.cursor/mcp.json`, or use the `.mcp.json` in this repo):
+**Codex and the ChatGPT desktop app**
 
-```json
-{
-  "mcpServers": {
-    "pyxmark": { "url": "https://mcp.pyxmark.com/mcp" }
-  }
-}
+```
+codex mcp add pyxmark --url https://mcp.pyxmark.com/mcp
 ```
 
-**VS Code, Windsurf and others:**
+Or in the desktop app: Settings → MCP servers → Add server, choose Streamable HTTP and paste the URL.
+
+**Cursor:** use the Install in Cursor button, or add this to `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project):
 
 ```json
-{ "servers": { "pyxmark": { "type": "http", "url": "https://mcp.pyxmark.com/mcp" } } }
+{ "mcpServers": { "pyxmark": { "url": "https://mcp.pyxmark.com/mcp" } } }
 ```
 
-**ChatGPT:** Settings → Apps & Connectors → Advanced settings → turn on Developer mode, then Create. Paste the server URL and choose No authentication.
+**VS Code (GitHub Copilot):** use the Install in VS Code button, or run MCP: Add Server from the Command Palette, choose HTTP and paste the URL. From a terminal:
 
-Clients that only speak stdio can use `npx -y mcp-remote https://mcp.pyxmark.com/mcp`.
+```
+code --add-mcp '{"name":"pyxmark","type":"http","url":"https://mcp.pyxmark.com/mcp"}'
+```
+
+**Grok:** at grok.com/connectors choose New Connector, then Custom, and paste the URL. On Grok Business and Enterprise a team admin adds it first. In Grok Build:
+
+```
+grok mcp add --transport http pyxmark https://mcp.pyxmark.com/mcp
+```
+
+**Grok Bot:** there's no settings form. Tell your bot "Add this MCP server: https://mcp.pyxmark.com/mcp". It confirms, and the tools work from your next message. (This comes from a Grok Bot staff answer; there's no doc page for it yet.)
+
+**Gemini CLI**
+
+```
+gemini mcp add --transport http -s user pyxmark https://mcp.pyxmark.com/mcp
+```
+
+**Other clients:** most read the standard block below, which is also this repo's `.mcp.json` (Claude Code, VS Code and Grok Build pick it up from a project root). Clients that only run local stdio servers can use `npx -y mcp-remote https://mcp.pyxmark.com/mcp`.
+
+```json
+{ "mcpServers": { "pyxmark": { "type": "http", "url": "https://mcp.pyxmark.com/mcp" } } }
+```
+
+**Check it works:** ask "List the Pyxmark tools". You should see 7 read-only tools. Then ask "Is Microsoft Corporation on any sanctions list?" It should come back with no match.
+
+AI agents setting this up for a user: follow [llms-install.md](llms-install.md).
 
 ## Tools
 
