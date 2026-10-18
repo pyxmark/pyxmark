@@ -73,7 +73,7 @@ AI agents setting this up for a user: follow [llms-install.md](llms-install.md).
 
 ## Tools
 
-All seven tools are read-only.
+Six tools are listed today, all read-only. A seventh, `check_exclusions` (SAM.gov federal exclusions), is added to the list once SAM.gov data has synced; until then each `due_diligence_report` includes a link to search SAM.gov yourself.
 
 | Tool | What it does |
 |---|---|
@@ -83,7 +83,6 @@ All seven tools are read-only.
 | `company_profile` | The SEC EDGAR record for one company: identity, address, three years of key financials and recent filings |
 | `domain_age` | Domain registration date and registrar (RDAP, with a WHOIS fallback) and its MX, SPF and DMARC records |
 | `state_registry_link` | A link to the US state business registry search for a company |
-| `check_exclusions` | SAM.gov federal exclusions. Not synced yet: it returns a link to search SAM.gov yourself |
 
 ## Try asking
 
