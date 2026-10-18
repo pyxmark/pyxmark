@@ -5,11 +5,30 @@
   "description": "Vendor checks: sanctions lists, SEC filings, domain age and a due-diligence report with sources.",
   "version": "0.1.0",
   "websiteUrl": "https://pyxmark.com",
+  "repository": {
+    "url": "https://github.com/pyxmark/pyxmark",
+    "source": "github"
+  },
   "icons": [
-    { "src": "https://mcp.pyxmark.com/icon.png", "mimeType": "image/png", "sizes": ["256x256"] },
-    { "src": "https://mcp.pyxmark.com/icon.svg", "mimeType": "image/svg+xml", "sizes": ["any"] }
+    {
+      "src": "https://mcp.pyxmark.com/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "256x256"
+      ]
+    },
+    {
+      "src": "https://mcp.pyxmark.com/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
   ],
   "remotes": [
-    { "type": "streamable-http", "url": "https://mcp.pyxmark.com/mcp" }
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.pyxmark.com/mcp"
+    }
   ]
 }

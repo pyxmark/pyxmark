@@ -1,0 +1,330 @@
+{
+  "cloudEndpoint": "https://mcp.pyxmark.com/mcp",
+  "description": "Vendor checks: sanctions lists, SEC filings, domain age and a due-diligence report with sources.",
+  "homepage": "https://pyxmark.com",
+  "icon": "https://pyxmark.com/icon.png",
+  "identifier": "pyxmark",
+  "name": "Pyxmark",
+  "tools": [
+    {
+      "name": "search_company",
+      "title": "Search SEC companies",
+      "description": "Look up which SEC-registered company a name, ticker or CIK refers to. Returns up to 10 candidates, each with its CIK, tickers and a match score, and nothing else. Use it to pick the right CIK when a name is ambiguous, then call company_profile with that CIK for the details.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Company name, ticker, or CIK"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Search SEC companies",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "company_profile",
+      "title": "SEC company profile",
+      "description": "Full SEC EDGAR record for one company, given its CIK, ticker or name (best match): legal name, industry (SIC), state of incorporation, business address, 3 fiscal years of revenue, net income, total assets and cash, and its recent 10-K, 10-Q and 8-K filings with links. Use search_company first if you only have a partial or ambiguous name.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "cik": {
+            "type": "string",
+            "description": "SEC CIK number"
+          },
+          "ticker": {
+            "type": "string",
+            "description": "Stock ticker"
+          },
+          "name": {
+            "type": "string",
+            "description": "Company name (fuzzy)"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "SEC company profile",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "screen_sanctions",
+      "title": "Screen sanctions lists",
+      "description": "Fuzzy-screen a person or organisation name against OFAC SDN + Consolidated, UN, EU, and UK sanctions lists. Returns up to 15 scored matches with source links; if more match, the summary says so and suggests a more specific query. Optional dob/birth_year, nationality and country set aside same-name matches whose listed details differ (rules at https://mcp.pyxmark.com/#details). Optional address, email, phone, website, ids and owners are matched against the details the lists give (identifier matches, sanctioned regions, the 50 percent rule); the assessment field sums it up as hold / review / clear. Informational only, not a compliance determination. Results come from public government lists and filings, may be incomplete or out of date, and fuzzy name matches can be false positives or miss variants. Verify every potential match against the official source before acting.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Person or organisation name"
+          },
+          "threshold": {
+            "type": "number",
+            "description": "Minimum match score 0-1 (default 0.88)"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Optional: date of birth (YYYY-MM-DD) of the person, to tell them apart from others with the same name"
+          },
+          "birth_year": {
+            "type": "number",
+            "description": "Optional: birth year, if the full date isn't known"
+          },
+          "nationality": {
+            "type": "string",
+            "description": "Optional: the person's nationality (country name or ISO code)"
+          },
+          "country": {
+            "type": "string",
+            "description": "Optional: country where the person lives or the organisation is based"
+          },
+          "address": {
+            "type": "string",
+            "description": "Optional: street address or city (free text). Flags addresses in comprehensively sanctioned regions: Crimea, the so-called DNR/LNR, Iran, North Korea, Cuba (Syria is flagged for review)"
+          },
+          "email": {
+            "type": "string",
+            "description": "Optional: contact email, matched against emails and domains the lists give"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Optional: phone number, matched on its last 9 digits against phones the lists give"
+          },
+          "website": {
+            "type": "string",
+            "description": "Optional: website or domain, matched against websites the lists give"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional: identifiers to match against the lists: company registration or tax numbers, passport or national ID numbers, vessel IMO numbers, SWIFT/BIC codes, crypto addresses"
+          },
+          "owners": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "percent": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            "description": "Optional: owners and their share (percent). Each is screened; listed owners holding 50% or more in total make the company blocked under the OFAC 50 percent rule"
+          },
+          "subject_type": {
+            "type": "string",
+            "enum": [
+              "company",
+              "person"
+            ],
+            "description": "Optional: whether the name is a company or a person. Defaults to company when the name has a legal suffix such as Inc or LLC (or, in a report, when it is an SEC-registered company); then person, vessel and aircraft entries must match almost exactly."
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Screen sanctions lists",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "domain_age",
+      "title": "Domain age and email records",
+      "description": "Domain registration date, age, registrar (RDAP) and email-auth records (MX, SPF, DMARC), which are common fraud signals.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain, URL, or email address"
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Domain age and email records",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "state_registry_link",
+      "title": "State business registry link",
+      "description": "Official Secretary of State business-search link for a US state, to verify a private company's status, formation date, and registered agent.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "description": "Two-letter code or state name"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name (optional)"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "State business registry link",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "due_diligence_report",
+      "title": "Vendor due diligence report",
+      "description": "One-call due-diligence report: SEC profile (if public), sanctions screen, federal exclusions, domain signals, and state registry link, with a red-flag summary, a verdict (clear / review / hold; rules at https://mcp.pyxmark.com/#verdict) and source links. An agent should not pay or onboard on 'hold', and should ask a person on 'review'. Informational only, not a compliance determination. Results come from public government lists and filings, may be incomplete or out of date, and fuzzy name matches can be false positives or miss variants. Verify every potential match against the official source before acting.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Company or person name"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Company website or email domain"
+          },
+          "cik": {
+            "type": "string",
+            "description": "SEC CIK"
+          },
+          "ticker": {
+            "type": "string",
+            "description": "Ticker"
+          },
+          "state": {
+            "type": "string",
+            "description": "US state of incorporation/registration"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Optional: date of birth (YYYY-MM-DD) of the person, to tell them apart from others with the same name"
+          },
+          "birth_year": {
+            "type": "number",
+            "description": "Optional: birth year, if the full date isn't known"
+          },
+          "nationality": {
+            "type": "string",
+            "description": "Optional: the person's nationality (country name or ISO code)"
+          },
+          "country": {
+            "type": "string",
+            "description": "Optional: country where the person lives or the organisation is based"
+          },
+          "address": {
+            "type": "string",
+            "description": "Optional: street address or city (free text). Flags addresses in comprehensively sanctioned regions: Crimea, the so-called DNR/LNR, Iran, North Korea, Cuba (Syria is flagged for review)"
+          },
+          "email": {
+            "type": "string",
+            "description": "Optional: contact email, matched against emails and domains the lists give"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Optional: phone number, matched on its last 9 digits against phones the lists give"
+          },
+          "website": {
+            "type": "string",
+            "description": "Optional: website or domain, matched against websites the lists give"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional: identifiers to match against the lists: company registration or tax numbers, passport or national ID numbers, vessel IMO numbers, SWIFT/BIC codes, crypto addresses"
+          },
+          "owners": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "percent": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            "description": "Optional: owners and their share (percent). Each is screened; listed owners holding 50% or more in total make the company blocked under the OFAC 50 percent rule"
+          },
+          "subject_type": {
+            "type": "string",
+            "enum": [
+              "company",
+              "person"
+            ],
+            "description": "Optional: whether the name is a company or a person. Defaults to company when the name has a legal suffix such as Inc or LLC (or, in a report, when it is an SEC-registered company); then person, vessel and aircraft entries must match almost exactly."
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Vendor due diligence report",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    }
+  ],
+  "version": "0.1.0",
+  "author": "Trunnel & Co.",
+  "authorUrl": "https://github.com/pyxmark",
+  "category": "business",
+  "tags": [
+    "sanctions",
+    "ofac",
+    "kyb",
+    "vendor-due-diligence",
+    "sec-edgar",
+    "fraud-prevention"
+  ]
+}
