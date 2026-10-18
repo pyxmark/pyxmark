@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/icon-256.png" width="96" height="96" alt="Pyxmark logo"></p>
+<p align="center"><img src="assets/logo-256.png" width="96" height="96" alt="Pyxmark logo"></p>
 
 # Pyxmark
 
