@@ -77,11 +77,11 @@ Six tools are listed today, all read-only. A seventh, `check_exclusions` (SAM.go
 
 | Tool | What it does |
 |---|---|
-| `due_diligence_report` | One report on a vendor: sanctions screen, SEC record and risk filings, domain age and email records, ending in a clear, review or hold verdict with reasons |
+| `due_diligence_report` | One report on a vendor: sanctions screen, SEC record and risk filings, domain age, first Wayback Machine snapshot and email records, ending in a clear, review or hold verdict with reasons |
 | `screen_sanctions` | Fuzzy-screens a name against OFAC SDN and Consolidated, UN, EU and UK lists. Optional birth date, nationality and country tell apart people with the same name. Optional address, email, phone, website, IDs and owners are matched against what the lists record, including sanctioned regions and the OFAC 50 percent rule |
 | `search_company` | Finds which SEC-registered company a name, ticker or CIK refers to |
 | `company_profile` | The SEC EDGAR record for one company: identity, address, three years of key financials and recent filings |
-| `domain_age` | Domain registration date and registrar (RDAP, with a WHOIS fallback) and its MX, SPF and DMARC records |
+| `domain_age` | Domain registration date and registrar (RDAP, with a WHOIS fallback), its MX, SPF and DMARC records, and the date of its first Wayback Machine snapshot |
 | `state_registry_link` | A link to the US state business registry search for a company |
 
 ## Try asking
