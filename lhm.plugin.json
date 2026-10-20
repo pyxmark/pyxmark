@@ -159,7 +159,7 @@
     {
       "name": "domain_age",
       "title": "Domain age and email records",
-      "description": "Domain registration date, age, registrar (RDAP) and email-auth records (MX, SPF, DMARC), which are common fraud signals.",
+      "description": "Domain registration date, age, registrar (RDAP) and email-auth records (MX, SPF, DMARC), which are common fraud signals, plus first_archived: the date of the Wayback Machine's earliest snapshot (null if none; archive.status says unavailable if archive.org didn't answer). notes holds factual remarks, such as a first snapshot under 90 days old or a registration years older than the first snapshot; they are not flags.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -213,7 +213,7 @@
     {
       "name": "due_diligence_report",
       "title": "Vendor due diligence report",
-      "description": "One-call due-diligence report: SEC profile (if public), sanctions screen, federal exclusions, domain signals, and state registry link, with a red-flag summary, a verdict (clear / review / hold; rules at https://mcp.pyxmark.com/#verdict) and source links. An agent should not pay or onboard on 'hold', and should ask a person on 'review'. Informational only, not a compliance determination. Results come from public government lists and filings, may be incomplete or out of date, and fuzzy name matches can be false positives or miss variants. Verify every potential match against the official source before acting.",
+      "description": "One-call due-diligence report: SEC profile (if public), sanctions screen, federal exclusions, domain signals (registration age, email records, Wayback Machine first-seen date), and state registry link, with a red-flag summary, a verdict (clear / review / hold; rules at https://mcp.pyxmark.com/#verdict) and source links. An agent should not pay or onboard on 'hold', and should ask a person on 'review'. Informational only, not a compliance determination. Results come from public government lists and filings, may be incomplete or out of date, and fuzzy name matches can be false positives or miss variants. Verify every potential match against the official source before acting.",
       "inputSchema": {
         "type": "object",
         "properties": {
