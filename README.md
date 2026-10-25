@@ -25,7 +25,7 @@ Server URL: `https://mcp.pyxmark.com/mcp` (Streamable HTTP). No sign in and no k
 claude mcp add --transport http pyxmark https://mcp.pyxmark.com/mcp
 ```
 
-**ChatGPT (web):** Plugins → + → Add custom MCP server. Name it Pyxmark, paste the server URL, pick No authentication, tick the risk box, then Create as a plugin. Install it and pick it with @ in a chat. You don't need Developer mode. OpenAI offers this on Business, Enterprise and Edu (admins and owners add it) and on Pro.
+**ChatGPT (web):** Plugins → + → Add custom MCP server. Name it Pyxmark, paste the server URL, pick No authentication, select I understand and want to continue, then Create as a plugin. Install it and pick it with @ in a chat.
 
 **Codex and the ChatGPT desktop app**
 
@@ -53,7 +53,7 @@ code --add-mcp '{"name":"pyxmark","type":"http","url":"https://mcp.pyxmark.com/m
 grok mcp add --transport http pyxmark https://mcp.pyxmark.com/mcp
 ```
 
-**Grok Bot:** there's no settings form. Tell your bot "Add this MCP server: https://mcp.pyxmark.com/mcp". It confirms, and the tools work from your next message. (This comes from a Grok Bot staff answer; there's no doc page for it yet.)
+**Grok Bot:** there's no settings form. Tell your bot "Add this MCP server: https://mcp.pyxmark.com/mcp". It confirms, and the tools work from your next message.
 
 **Gemini CLI**
 

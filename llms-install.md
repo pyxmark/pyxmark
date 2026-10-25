@@ -54,7 +54,7 @@ Clients that only run local stdio servers: `npx -y mcp-remote https://mcp.pyxmar
 Tell the user these steps; you can't do them yourself.
 
 - Claude (claude.ai, Claude Desktop): Customize → Connectors → + Add → Add custom connector. Name Pyxmark, paste the URL, choose No sign in, Add. Team and Enterprise: an owner adds it under Organization settings → Connectors first.
-- ChatGPT (web): Plugins → + → Add custom MCP server. Name Pyxmark, paste the URL, No authentication, tick the risk box, Create as a plugin, then install it. No Developer mode needed. Business, Enterprise, Edu and Pro plans.
+- ChatGPT (web): Plugins → + → Add custom MCP server. Name Pyxmark, paste the URL, No authentication, select I understand and want to continue, Create as a plugin, then install it.
 - Grok: grok.com/connectors → New Connector → Custom, paste the URL.
 
 ## Check it works
